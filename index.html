@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M Sai Tanusha - V3 Interactive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+            overflow-x: hidden;
+            cursor: auto;
+        }
+
+        /* Custom cursor */
+        /* .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #333;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #999;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        } */
+
+        /* Animated background grid */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(#000 1px, transparent 1px),
+                linear-gradient(90deg, #000 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        nav {
+            position: fixed;
+            top: 30px;
+            right: 50px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        nav:hover {
+            transform: translateY(-3px);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        nav a:hover::before {
+            opacity: 1;
+        }
+
+        nav a:hover {
+            transform: scale(1.1);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 80px;
+            gap: 80px;
+        }
+
+        .hero-image {
+            flex: 0 0 500px;
+            perspective: 1000px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* .hero-image:hover img {
+            transform: rotateY(5deg) rotateX(5deg) scale(1.05);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        } */
+
+        .hero-content {
+            flex: 1;
+            max-width: 700px;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            color: #1a1a1a;
+        }
+
+        h1:hover {
+            animation: glitch 0.3s ease;
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            25% { transform: translate(-2px, 2px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-2px, -2px); }
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            color: #666;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .description {
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 12px 25px;
+            border: 2px solid #333;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-links a::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: #333;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s ease;
+        }
+
+        .social-links a:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .social-links a:hover {
+            color: white;
+            border-color: #333;
+        }
+
+        .social-links a span {
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            padding: 100px 80px;
+        }
+
+        .section-title {
+            font-size: 2.5em;
+            font-weight: 300;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+            letter-spacing: -0.5px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: transparent;
+            -webkit-text-stroke: 1px #e0e0e0;
+            z-index: -1;
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(5px, 5px); }
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .article-card {
+            background: #fafafa;
+            padding: 35px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg,#f0efeb, #e5989b); 
+            border-radius: 8px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            background-size: 400%;
+            animation: glowRotate 20s linear infinite;
+        }
+
+        @keyframes glowRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .article-card:hover::before {
+            opacity: 1;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: white;
+        }
+
+        .article-card h3 {
+            font-size: 1.5em;
+            font-weight: 400;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+            transition: transform 0.3s ease;
+        }
+
+        .article-card:hover h3 {
+            transform: translateX(10px);
+        }
+
+        .article-date {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .article-card p {
+            color: #666;
+            line-height: 1.7;
+            font-size: 1em;
+        }
+
+        .expand-hint {
+            margin-top: 15px;
+            color: #999;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .article-card:hover .expand-hint {
+            color: #333;
+            transform: translateX(10px);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .gallery-item {
+            background: #fafafa;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            position: 1px solid #e6e6e6;
+        }
+
+        /* .gallery-item::after {
+            content: '✦';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
+            opacity: 0;
+            transform: rotate(0deg) scale(0);
+            transition: all 0.4s ease;
+        } */
+
+        /* .gallery-item:hover::after {
+            opacity: 1;
+            transform: rotate(180deg) scale(1);
+        } */
+
+        /* .gallery-item:hover {
+            transform: translateY(-10px) rotate(-2deg);
+        } */
+
+        .subscribe-box {
+            margin-top: 40px;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #fafafa;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .subscribe-box input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+
+        .subscribe-box button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+        }
+
+
+        .gallery-item:hover {
+            background: #ffffff;
+            border-color: #d0d0d0;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            transform: translateY(-4px);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 280px;
+            background: #e8e8e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            transition: all 0.3s ease;
+        }
+
+        /* .gallery-item:hover .gallery-image {
+            filter: brightness(1.1);
+        } */
+
+        .gallery-content {
+            padding: 25px;
+        }
+
+        .gallery-content h4 {
+            font-size: 1.2em;
+            font-weight: 400;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .gallery-content p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .contact-section {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            margin-bottom: 50px;
+        }
+
+        .contact-info a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .contact-info a:hover {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input, textarea {
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #333;
+            background: white;
+            transform: scale(1.02);
+        }
+
+        button {
+            padding: 15px 40px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+        }
+
+        button:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        button:hover {
+            color: #1a1a1a;
+        }
+
+        button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 60px;
+            width: 60%;
+            max-width: 900px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 8px;
+            animation: modalFade 0.25s ease-out;
+        }
+
+        /* @keyframes modalPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        } */
+
+        @keyframes modalFade {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .close {
+            color: #999;
+            float: right;
+            font-size: 32px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #333;
+            transform: rotate(90deg) scale(1.2);
+        }
+
+        .modal h3 {
+            font-size: 2.2em;
+            font-weight: 400;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .modal p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+
+        @media (max-width: 1200px) {
+            .hero {
+                flex-direction: column;
+                padding: 80px 50px;
+                text-align: center;
+            }
+
+            .hero-image {
+                flex: none;
+            }
+
+            nav {
+                top: 20px;
+                right: 20px;
+            }
+
+            .articles-grid, .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            section {
+                padding: 80px 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                cursor: default;
+            }
+
+            .cursor, .cursor-follower {
+                display: none;
+            }
+
+            nav {
+                right: 50%;
+                transform: translateX(50%);
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .hero {
+                padding: 100px 30px 60px;
+            }
+
+            .hero-image img {
+                height: 400px;
+            }
+
+            section {
+                padding: 60px 30px;
+            }
+
+            .articles-grid, .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 90%;
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="cursor"></div>
+    <div class="cursor-follower"></div> -->
+    <div class="bg-grid"></div>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#articles">Articles</a></li>
+            <li><a href="resume.pdf" download>CV</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero" id="home">
+        <div class="hero-image">
+            <img src="profile.jpg" alt="M Sai Tanusha">
+        </div>
+        <div class="hero-content">
+            <h1>M Sai Tanusha</h1>
+            <p class="subtitle">Risk Modelling Analyst @ Moody's </p>
+            <p class="description">
+                Integrated MSc graduate in Mathematics & Computing from Birla Institute of Technology, Mesra. 
+                Currently working as a corporate professional with expertise in Machine Learning, Data Analysis, 
+                and Graph Databases. Passionate about continuous learning and exploring new technologies during 
+                my winter arc journey. Aspiring to pursue doctoral research in the future.
+            </p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/m-sai-tanusha-83b322216" target="_blank"><span>LinkedIn</span></a>
+                <a href="https://github.com/yourusername" target="_blank"><span>GitHub</span></a>
+                <a href="mailto:saitanusha19@gmail.com"><span>Email</span></a>
+            </div>
+        </div>
+    </div>
+
+    <section id="articles">
+        <h2 class="section-title" data-text="Learning Notes">Learning Notes</h2>
+        <div class="articles-grid">
+            <div class="article-card">
+                <div onclick="window.location.href='article1.html'" style="cursor: pointer;">
+                    <h3>Exploring Advanced Machine Learning</h3>
+                    <p class="article-date">November 28, 2025</p>
+                    <p>Today I delved into advanced ensemble methods...</p>
+                    <p class="expand-hint">Read more →</p>
+                </div>
+                <button onclick="copyShareLink('article1.html'); event.stopPropagation();" style="margin-top: 15px; padding: 8px 20px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 0.9em;">
+                    📋 Copy Share Link
+                </button>
+            </div>
+
+            <div class="article-card" onclick="openModal('modal2')">
+                <h3>Graph Databases Applications</h3>
+                <p class="article-date">November 27, 2025</p>
+                <p>Reflecting on my experience with ArangoDB during my internship at Zenteiq. Graph databases offer unique advantages for modeling complex relationships...</p>
+                <p class="expand-hint">Read more →</p>
+            </div>
+
+            <div class="article-card" onclick="openModal('modal3')">
+                <h3>Winter Arc: Leveling Up</h3>
+                <p class="article-date">November 26, 2025</p>
+                <p>Starting my winter arc with a focus on deepening my technical expertise. Planning to explore deep learning frameworks, advanced statistics...</p>
+                <p class="expand-hint">Read more →</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2 class="section-title" data-text="Gallery of Experiences">Gallery of Experiences</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/iit ro.jpeg" alt="IIT Ropar Internship" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="gallery-content">
+                    <h4>IIT Ropar Summer Internship</h4>
+                    <p>Research experience working on graph optimization problems with Prof. Dr. Arti Pandey.</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/iisc.jpeg" alt="IIT Ropar Internship" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="gallery-content">
+                    <h4>Zenteiq at IISc Bangalore</h4>
+                    <p>GraphML internship experience at Indian Institute of Science, building database solutions.</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/coimba.jpeg" alt="IIT Ropar Internship" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="gallery-content">
+                    <h4>TIFR Vigyan Vidushi Program</h4>
+                    <p>Two-week intensive program on Machine Learning, Probability, and Game Theory at TIFR Mumbai.</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/oimbatore.jpeg" alt="IIT Ropar Internship" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="gallery-content">
+                    <h4>ACM School - Coimbatore</h4>
+                    <p>Learnt lot about probability and statistics complexity models.</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/bitotsav.jpeg" alt="IIT Ropar Internship" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="gallery-content">
+                    <h4>BITOTSAV'23 Team</h4>
+                    <p>Leading the core team at Jharkhand's biggest college fest with 50+ volunteers.</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/bit.jpeg" alt="IIT Ropar Internship" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="gallery-content">
+                    <h4>Campus Life at BIT Mesra</h4>
+                    <p>Memorable moments from my integrated MSc journey in Mathematics & Computing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="fun-contact-wrapper">
+
+            <h2 class="fun-title">Let’s Connect ✨</h2>
+
+            <p class="fun-tagline">
+                I love meeting new people, learning ideas, and sharing stories.  
+                Come say hi! 👋
+            </p>
+
+            <div class="fun-buttons">
+
+                <!-- Email -->
+                <p>📩 Drop me an Email - saitanusha19@gmail.com </p>
+
+                <!-- Buy me a Coffee -->
+                 <p>☕ Buy Me a Coffee</p>
+
+            </div>
+
+            <div class="fun-footer-note">
+                Made with ❤️ & caffeine
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <!-- <section id="contact">
+        <div class="contact-section">
+            <h2 class="section-title" data-text="Get In Touch">Get In Touch</h2>
+            <div class="contact-info">
+                <a href="mailto:saitanusha19@gmail.com">saitanusha19@gmail.com</a>
+            </div>
+            <form class="contact-form" onsubmit="handleContactSubmit(event)">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" rows="6" required></textarea>
+                <button type="submit"><span>Send Message</span></button>
+            </form>
+        </div>
+    </section> -->
+
+
+
+    <!-- <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal1')">&times;</span>
+            <h3>Exploring Advanced Machine Learning Techniques</h3>
+            <p class="article-date">November 28, 2025</p>
+            <p>Today I delved into advanced ensemble methods and their applications in predictive modeling. Understanding how Random Forests and Gradient Boosting work under the hood has opened new perspectives on model optimization.</p>
+            <p>Ensemble methods combine multiple models to create a stronger predictor. I've been exploring how decision trees work together in Random Forests, where each tree votes on the final prediction. The beauty lies in how it reduces overfitting through bagging and random feature selection.</p>
+            <p>Gradient Boosting, on the other hand, builds trees sequentially, where each new tree tries to correct the errors of the previous ones. This additive approach is powerful but requires careful tuning to avoid overfitting.</p>
+            <p>I'm particularly interested in how these techniques can be applied to time series forecasting and financial modeling. The key is understanding when to use which method based on your data characteristics and problem requirements.</p>
+        </div>
+    </div> -->
+
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal2')">&times;</span>
+            <h3>Graph Databases and Real-World Applications</h3>
+            <p class="article-date">November 27, 2025</p>
+            <p>Reflecting on my experience with ArangoDB during my internship at Zenteiq. Graph databases offer unique advantages for modeling complex relationships, and I'm excited to explore more use cases.</p>
+            <p>Traditional relational databases struggle with highly connected data - this is where graph databases shine. During my internship, I worked on designing schemas that could efficiently handle course recommendation systems based on user behavior and course relationships.</p>
+            <p>ArangoDB's multi-model approach allowed us to combine document storage with graph traversal capabilities. Writing AQL queries to find patterns in user click-through behavior was fascinating - it revealed insights that would have been nearly impossible to discover with SQL joins.</p>
+            <p>The performance improvements we achieved (40% better data analysis fidelity) came from optimizing graph traversal algorithms and strategic indexing. I learned that graph databases aren't just about storing connections - they're about making those connections queryable and actionable.</p>
+            <p>Moving forward, I'm keen to explore how graph neural networks can be combined with graph databases for even more powerful analytics.</p>
+        </div>
+    </div>
+
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal3')">&times;</span>
+            <h3>Winter Arc: Leveling Up My Skills</h3>
+            <p class="article-date">November 26, 2025</p>
+            <p>Starting my winter arc with a focus on deepening my technical expertise. Planning to explore deep learning frameworks, advanced statistics, and preparing for potential doctoral research.</p>
+            <p>The winter arc is about intentional growth during these months. As a corporate professional, I'm dedicating time outside work to build skills that will prepare me for doctoral studies. The goal isn't just learning - it's about building a strong foundation for research.</p>
+            <p>My focus areas include: Deep Learning (PyTorch and TensorFlow), Advanced Statistical Methods, Research Methodology, Academic Writing, and exploring potential research areas in ML/AI that interest me.</p>
+            <p>I'm approaching this systematically - reading papers daily, implementing algorithms from scratch to truly understand them, and maintaining a research journal to document insights and questions. The idea is to transition from being a practitioner to a researcher who can contribute original ideas to the field.</p>
+            <p>While I'm not sure exactly when I'll pursue my PhD, I'm using this time to ensure that when the opportunity comes, I'll be ready. It's about building momentum, developing research discipline, and discovering what truly excites me in this vast field.</p>
+        </div>
+    </div>
+
+    <script>
+        // Custom cursor
+        // const cursor = document.querySelector('.cursor');
+        // const cursorFollower = document.querySelector('.cursor-follower');
+
+        // document.addEventListener('mousemove', (e) => {
+        //     cursor.style.left = e.clientX + 'px';
+        //     cursor.style.top = e.clientY + 'px';
+            
+        //     setTimeout(() => {
+        //         cursorFollower.style.left = e.clientX + 'px';
+        //         cursorFollower.style.top = e.clientY + 'px';
+        //     }, 100);
+        // });
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            alert('Thank you for your message! I will get back to you soon.');
+            event.target.reset();
+        }
+
+        function copyShareLink(articlePath) {
+            const fullUrl = window.location.origin + window.location.pathname.replace('index.html', '') + articlePath;
+            navigator.clipboard.writeText(fullUrl).then(() => {
+                alert('Link copied! Share: ' + fullUrl);
+            });
+        }
+    </script>
+</body>
+</html>

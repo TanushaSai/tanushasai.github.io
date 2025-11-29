@@ -1,0 +1,13 @@
+### how to change the .html file
+
+got ot arounf 700 line anf ind this line <div class="article-card" onclick="openModal('modal1')">
+
+change it out to<div class="article-card" onclick="window.location.href='article1.html'">
+
+also comment down the model2 or modal 3 
+it will look like this
+<!-- DELETE FROM HERE -->
+<div id="modal1" class="modal">
+...
+</div>
+<!-- TO HERE -->
