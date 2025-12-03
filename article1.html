@@ -26,16 +26,13 @@
 
     <!-- ADD THIS SECTION -->
     <div style="margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-        <p style="margin: 0; color: #666;">Share this article:</p>
+        <!-- <p style="margin: 0; color: #666;">Share this article:</p> -->
         <div style="display: flex; gap: 10px;">
             <button onclick="copyArticleLink()" style="padding: 10px 20px; background: #1a1a1a; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9em;">
-                📋 Copy Link
+                Copy Link
             </button>
-            <a href="https://twitter.com/intent/tweet?url=https://tanushasai.github.io/article1.html&text=Check out this article!" target="_blank" style="padding: 10px 20px; background: #1da1f2; color: white; text-decoration: none; border-radius: 6px; font-size: 0.9em;">
-                🐦 Tweet
-            </a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://tanushasai.github.io/article1.html" target="_blank" style="padding: 10px 20px; background: #0077b5; color: white; text-decoration: none; border-radius: 6px; font-size: 0.9em;">
-                💼 Share on LinkedIn
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://tanushasai.github.io/article1.html" target="_blank" style="padding: 10px 20px; background: #1a1a1a; color: white; text-decoration: none; border-radius: 6px; font-size: 0.9em;">
+                Share on LinkedIn
             </a>
         </div>
     </div>
@@ -75,6 +72,7 @@
 
     <script>
         const articleId = 'article1'; // CHANGE THIS: 'article1', 'article2', 'article3' for each file
+        const userReactionKey = articleId + '-user-reaction'; 
         
         function loadReactions() {
             const reactions = JSON.parse(localStorage.getItem(articleId + '-reactions') || '{"like":0,"love":0,"fire":0}');
@@ -85,20 +83,36 @@
         
         function addReaction(emoji) {
             const reactions = JSON.parse(localStorage.getItem(articleId + '-reactions') || '{"like":0,"love":0,"fire":0}');
-            
-            if (emoji === '👍') reactions.like++;
-            if (emoji === '❤️') reactions.love++;
-            if (emoji === '🔥') reactions.fire++;
-            
+            const previous = localStorage.getItem(userReactionKey);
+        
+            // If user clicks the same reaction → undo it
+            if (previous === emoji) {
+                if (emoji === '👍') reactions.like--;
+                if (emoji === '❤️') reactions.love--;
+                if (emoji === '🔥') reactions.fire--;
+        
+                localStorage.removeItem(userReactionKey);
+            } 
+            // Otherwise → remove old reaction (if any) & add new one
+            else {
+                if (previous === '👍') reactions.like--;
+                if (previous === '❤️') reactions.love--;
+                if (previous === '🔥') reactions.fire--;
+        
+                if (emoji === '👍') reactions.like++;
+                if (emoji === '❤️') reactions.love++;
+                if (emoji === '🔥') reactions.fire++;
+        
+                localStorage.setItem(userReactionKey, emoji);
+            }
+        
             localStorage.setItem(articleId + '-reactions', JSON.stringify(reactions));
             loadReactions();
-            
-            // Visual feedback
+        
             event.target.style.transform = 'scale(1.2)';
-            setTimeout(() => {
-                event.target.style.transform = 'scale(1)';
-            }, 200);
+            setTimeout(() => event.target.style.transform = 'scale(1)', 200);
         }
+
         
         loadReactions();
     </script>
@@ -106,4 +120,5 @@
 </body>
 
 </html>
+
 
