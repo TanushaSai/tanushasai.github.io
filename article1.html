@@ -32,16 +32,78 @@
             data-strict="0"
             data-reactions-enabled="1"
             data-emit-metadata="0"
-            data-input-position="bottom"
-            data-theme="preferred_color_scheme"
+            data-input-position="top"
+            data-theme="light"
             data-lang="en"
+            data-loading="lazy"
             crossorigin="anonymous"
             async>
     </script>
 </div>
+<div style="max-width: 800px; margin: 60px auto; padding: 40px; border-top: 2px solid #e0e0e0;">
+    <h2 style="margin-bottom: 30px;">Quick Reactions</h2>
+    <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 40px;">
+        <button onclick="addReaction('👍')" style="font-size: 2em; padding: 15px 25px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px; cursor: pointer;">
+            👍 <span id="like-count">0</span>
+        </button>
+        <button onclick="addReaction('❤️')" style="font-size: 2em; padding: 15px 25px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px; cursor: pointer;">
+            ❤️ <span id="love-count">0</span>
+        </button>
+        <button onclick="addReaction('🔥')" style="font-size: 2em; padding: 15px 25px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px; cursor: pointer;">
+            🔥 <span id="fire-count">0</span>
+        </button>
+    </div>
+</div>
+
+<script>
+    const articleId = 'article1'; // Change for each article
+    
+    function loadReactions() {
+        const reactions = JSON.parse(localStorage.getItem(articleId + '-reactions') || '{"like":0,"love":0,"fire":0}');
+        document.getElementById('like-count').textContent = reactions.like;
+        document.getElementById('love-count').textContent = reactions.love;
+        document.getElementById('fire-count').textContent = reactions.fire;
+    }
+    
+    function addReaction(emoji) {
+        const reactions = JSON.parse(localStorage.getItem(articleId + '-reactions') || '{"like":0,"love":0,"fire":0}');
+        if (emoji === '👍') reactions.like++;
+        if (emoji === '❤️') reactions.love++;
+        if (emoji === '🔥') reactions.fire++;
+        localStorage.setItem(articleId + '-reactions', JSON.stringify(reactions));
+        loadReactions();
+    }
+    
+    loadReactions();
+</script>
 </head>
 <body>
     <a href="javascript:history.back()" class="back-link">← Back to Portfolio</a>
+
+    <!-- ADD THIS SECTION -->
+    <div style="margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+        <p style="margin: 0; color: #666;">Share this article:</p>
+        <div style="display: flex; gap: 10px;">
+            <button onclick="copyArticleLink()" style="padding: 10px 20px; background: #1a1a1a; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9em;">
+                📋 Copy Link
+            </button>
+            <a href="https://twitter.com/intent/tweet?url=https://tanushasai.github.io/article1.html&text=Check out this article!" target="_blank" style="padding: 10px 20px; background: #1da1f2; color: white; text-decoration: none; border-radius: 6px; font-size: 0.9em;">
+                🐦 Tweet
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://tanushasai.github.io/article1.html" target="_blank" style="padding: 10px 20px; background: #0077b5; color: white; text-decoration: none; border-radius: 6px; font-size: 0.9em;">
+                💼 Share on LinkedIn
+            </a>
+        </div>
+    </div>
+    
+    <script>
+    function copyArticleLink() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            alert('Link copied to clipboard! 🎉');
+        });
+    }
+    </script>
     
     <h1>Exploring Advanced Machine Learning Techniques</h1>
     <p class="date">November 28, 2025</p>
@@ -56,3 +118,4 @@
 </body>
 
 </html>
+
