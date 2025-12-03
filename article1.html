@@ -54,71 +54,10 @@
     <img src="your-image.jpg" alt="Machine Learning">
     
     <p>Ensemble methods combine multiple models to create a stronger predictor...</p>
-
-    <div style="max-width: 800px; margin: 40px auto; padding: 30px; text-align: center; border-bottom: 1px solid #e0e0e0;">
-        <p style="color: #666; margin-bottom: 20px; font-size: 1em;">Was this helpful?</p>
-        <div style="display: flex; gap: 15px; justify-content: center;">
-            <button onclick="addReaction('👍')" style="font-size: 1.5em; padding: 10px 20px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                👍 <span id="like-count" style="font-size: 0.8em; color: #666;">0</span>
-            </button>
-            <button onclick="addReaction('❤️')" style="font-size: 1.5em; padding: 10px 20px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                ❤️ <span id="love-count" style="font-size: 0.8em; color: #666;">0</span>
-            </button>
-            <button onclick="addReaction('🔥')" style="font-size: 1.5em; padding: 10px 20px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
-                🔥 <span id="fire-count" style="font-size: 0.8em; color: #666;">0</span>
-            </button>
-        </div>
-    </div>
-
-    <script>
-        const articleId = 'article1'; // CHANGE THIS: 'article1', 'article2', 'article3' for each file
-        const userReactionKey = articleId + '-user-reaction'; 
-        
-        function loadReactions() {
-            const reactions = JSON.parse(localStorage.getItem(articleId + '-reactions') || '{"like":0,"love":0,"fire":0}');
-            document.getElementById('like-count').textContent = reactions.like;
-            document.getElementById('love-count').textContent = reactions.love;
-            document.getElementById('fire-count').textContent = reactions.fire;
-        }
-        
-        function addReaction(emoji) {
-            const reactions = JSON.parse(localStorage.getItem(articleId + '-reactions') || '{"like":0,"love":0,"fire":0}');
-            const previous = localStorage.getItem(userReactionKey);
-        
-            // If user clicks the same reaction → undo it
-            if (previous === emoji) {
-                if (emoji === '👍') reactions.like--;
-                if (emoji === '❤️') reactions.love--;
-                if (emoji === '🔥') reactions.fire--;
-        
-                localStorage.removeItem(userReactionKey);
-            } 
-            // Otherwise → remove old reaction (if any) & add new one
-            else {
-                if (previous === '👍') reactions.like--;
-                if (previous === '❤️') reactions.love--;
-                if (previous === '🔥') reactions.fire--;
-        
-                if (emoji === '👍') reactions.like++;
-                if (emoji === '❤️') reactions.love++;
-                if (emoji === '🔥') reactions.fire++;
-        
-                localStorage.setItem(userReactionKey, emoji);
-            }
-        
-            localStorage.setItem(articleId + '-reactions', JSON.stringify(reactions));
-            loadReactions();
-        
-            event.target.style.transform = 'scale(1.2)';
-            setTimeout(() => event.target.style.transform = 'scale(1)', 200);
-        }
-
-        
-        loadReactions();
-    </script>
     
 </body>
 
 </html>
+
 
 
